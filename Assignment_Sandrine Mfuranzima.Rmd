@@ -1,0 +1,56 @@
+---
+title: "Assignment"
+author: "Sandrine Mfuranzima 101411"
+date: "2025-10-12"
+output: html_document
+---
+
+
+### trace()
+
+The trace() is a function that allows you to insert debugging code into a function at specific places without modifying their source.
+
+```{r}
+# Creating a function
+my_function <- function(x, y) {
+  result <- x + y
+  return(result * 2)
+}
+
+# using trace function by calling it
+trace("my_function", browser)
+
+# calling the function
+my_function(5, 3)
+
+```
+
+### Recover()
+
+The Recover() function is allows you to modify the error behavior so that you can browse the function 
+
+```{r error=TRUE}
+# Creating functions that call each other
+function_a <- function(x) {
+  result <- function_b(x * 2)
+  return(result + 10)
+}
+
+function_b <- function(y) {
+  if (y < 0) stop("Negative value not allowed!")
+  result <- function_c(y - 5)
+  return(result * 3)
+}
+
+function_c <- function(z) {
+  if (z == 0) stop("Zero value encountered!")
+  return(100 / z)
+}
+
+# Testing with error
+options(error = recover)
+function_a(2.5)  
+```
+
+
+
