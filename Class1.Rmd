@@ -1,0 +1,260 @@
+---
+title: "class1"
+author: "Sandrine Mfuranzima"
+date: "2025-10-16"
+output: html_document
+---
+### Data structure (Vectors, Factors, Lists, Data frame, matrix and arrays)
+
+#### Vector: The foundational R data structure
+##### Numeric
+```{r}
+#example
+x <- c(0.5, 0.6)
+age <- c(20, 35, 32, 29)
+summary(age)
+
+# Reassigning the age with new values
+age <- c(35, 24, 18, 24)
+
+# Mean of new age values
+mean(age)
+
+```
+###### Logical
+```{r}
+x <- c(TRUE,FALSE)
+x <- c(T,F)
+```
+###### Character
+
+```{r}
+x <- c("a","b","c")
+class <-c("M","F","F","M")
+```
+###### Integer
+
+```{r}
+x <-9:29
+```
+
+###### Complex
+
+```{r}
+
+x<- c(1+0i, 2+4i)
+x
+```
+
+###### Matrix and Operation within Matrices
+
+```{r}
+x<-matrix(1:6, nrow=2 ,ncol=3)
+x
+
+y<-matrix(1:6,nrow =3 ,ncol =2 )
+y
+
+x%*%y
+```
+
+###### List
+
+```{r}
+x<-list(1,"a",TRUE,1+4i)
+x
+```
+
+###### Factor
+
+```{r}
+x<-factor(c("yes","yes","no","yes","no"))
+x
+```
+
+###### Create a vector with NAs in it
+
+```{r}
+x<-c(1,2,NA,10,3)
+##check which number in  X is NA 
+is.na(x)
+```
+
+```{r}
+x <- c(1, 2, 4, "NA", 5)
+bad <- is.na(x)
+print(bad)
+x[!bad]
+```
+
+```{r}
+x <- c(1, 2, NA, 4, NA, 5)
+y <- c("a", "b", NA, "d", NA, "f")
+good <- complete.cases(x, y)
+good
+```
+### Coercion
+```{r}
+sum(c(TRUE, TRUE, FALSE, FALSE, FALSE))
+```
+```{r}
+# Let's Create a Data Frame
+studentID <- c(1,2,3,4,5)
+math_score <- c(12,17,10,9,NA)
+gender <- c("M","F","M","M","F")
+it_score <- c(13,18,11,10,19)
+scoredata <- data.frame(studentID, gender, math_score, it_score)
+scoredata
+#View(scoredata)
+```
+
+##### Create data from keyboard
+```{r}
+data_class2<-data.frame(height=numeric(0),weight=numeric(0),bmi=numeric(0))
+data_class2<-edit(data_class2)
+```
+
+##### Data Importation
+
+```{r}
+data_class<-read.csv("C:\\Users\\DXB\\Desktop\\R_programing\\class3\\random_height_weight_dataset.csv")
+variable.names(data_class)
+View(data_class)
+```
+
+```{r}
+head(data_class)
+```
+
+```{r}
+tail(data_class)
+```
+```{r}
+data_class[10:20,]
+```
+```{r}
+summary(data_class$W)
+```
+```{r}
+length(data_class$v2)
+```
+```{r}
+data_class[,-1]
+```
+
+
+```{r}
+#Built-in Dataset Example
+data("airquality")
+variable.names(airquality)
+str(airquality)
+summary(airquality)
+```
+### Exploration Data Analysis (EDA)
+
+```{r}
+data_class <- data.frame(
+HEIGHT = c(161,155,158,170,160,156,162,158,158,167,160,155,154,155,157,157,160,158,160,160,
+152,154,150,161,162,164,161,155,159,163,159,160,158,165,156,163,155,164,163,168,
+157,164),
+WEIGHT = c(50,49,42,65,60,52,58,46,45,51,60,42,53,48,48,48,53,52,51,53,
+44,56,63,52,57,49,52,54,46,50,61,55,45,63,60,56,52,47,52,55,
+48,58)
+)
+summary(data_class)
+apply(data_class,2,mean)
+apply(data_class,2,sd)
+```
+### Relationship Between Variables – iris Dataset
+```{r}
+data("iris")
+head(iris)
+mean(iris$Petal.Length)
+mean(iris$Petal.Length[iris$Species=="setosa"])
+mean(iris$Petal.Length[iris$Species=="versicolor"])
+mean(iris$Petal.Length[iris$Species=="virginica"])
+
+#shortcut
+by(iris$Petal.Length,iris$Species,mean)
+by(iris$Petal.Length,iris$Species,sd)
+by(iris$Petal.Length,iris$Species,summary)
+
+```
+##### Visualize the differences in continuous variables between categories using Box-and- whisker plot
+
+```{r}
+boxplot(iris$Sepal.Length ~ iris$Species, data = iris, main="Comparison")
+```
+
+
+### Relationship Between Two Categorical Variables
+```{r}
+ucba<-data.frame(UCBAdmissions)
+head(ucba)
+cross<-xtabs(Freq~Gender+Admit,data=ucba)
+(cross <- xtabs(Freq ~ Gender + Admit, data = ucba))
+prop.table(cross, 2)
+```
+### Simpson's paradox
+```{r}
+cross2<-xtabs(Freq~Gender+Admit,data=ucba[ucba$Dept=="A",])
+prop.table(cross2,1)
+```
+
+##### Bar Chart
+```{r}
+dat <- read.table(text ="ProdA ProdB ProdC ProdD
+1 110 50 60 70
+2 120 50 80 65", header=TRUE)
+barplot(as.matrix(dat), beside=FALSE, col=c("red","green"))
+
+
+dat1 <- read.table(text = "A B C D E F G
+1 10 80 30 90 70 60 90
+2 20 50 70 50 40 10 40
+3 60 80 80 60 60 30 160
+4 20 40 70 80 20 10 70", header = TRUE)
+barplot(as.matrix(dat1))
+```
+### Scatter Plot
+```{r}
+plot(WEIGHT ~ HEIGHT, data=data_class)
+plot(data_class$HEIGHT,data_class$WEIGHT)
+plot(data_class[,1],data_class[,2])
+cor(data_class$HEIGHT, data_class$WEIGHT)
+```
+
+### Linear Model
+
+```{r}
+plot(WEIGHT~HEIGHT,data=data_class) 
+abline(lm(WEIGHT~HEIGHT,data=data_class)$coefficient)
+```
+```{r}
+data_lm<-lm(WEIGHT~HEIGHT,data=data_class) 
+summary(data_lm)
+hist(data_class$HEIGHT)
+```
+```{r}
+hist(data_class$WEIGHT,col = "blue")
+```
+
+```{r}
+plot(WEIGHT~HEIGHT,data=data_class) 
+abline(lm(WEIGHT~HEIGHT,data=data_class)$coefficient) 
+lines(lowess(data_class$HEIGHT,data_class$WEIGHT),col="blue")
+```
+```{r}
+cor(data_class$HEIGHT,data_class$WEIGHT) 
+model1<-lm(WEIGHT~HEIGHT,data=data_class)
+```
+### Data Management – Creating BMI
+```{r}
+BMI <- round(data_class$WEIGHT / (data_class$HEIGHT/100)^2, 2)
+new_data_class <- cbind(data_class, BMI)
+head(new_data_class, n=5)
+summary(BMI)
+stem(BMI, scale=2)
+```
+
+

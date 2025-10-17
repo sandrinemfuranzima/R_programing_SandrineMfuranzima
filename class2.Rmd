@@ -1,0 +1,667 @@
+---
+title: "CLASS2"
+author: "Sandrine Mfuranzima"
+date: "2025-10-16"
+output: html_document
+---
+
+### Data Visualization and Data management Test to treat data
+
+```{r}
+data1 <- read.table(text="
+Sept_2022 Oct_2022 Nov_2022 Dec_2022 Jan_2023 Feb_2023 Mar_2023 Apr_2023 May_2023 June_2023
+1 4 6 30 140 67 47 23 39 134 80
+2 10 2 29 164 72 81 28 63 211 132
+", header=TRUE)
+
+barplot(as.matrix(data1), main="Confirmed cases Vs Gender", beside=TRUE,
+        col=c("gold3","red"))
+legend("topright", c("Male","Female"), cex=0.5, bty="n", fill=c("gold3","red"))
+
+```
+```{r}
+data3 <- read.table(text="
+sept_2022 Oct_2022 Nov_2022 Dec_2022 Jan_2023 Feb_2023 Mar_2023 Apr_2023 May_2023 June_2023
+1 867 582 1802 12003 3059 9205 5346 7269 5933 324
+2 842 436 1805 11785 3508 10908 4902 7883 5901 464
+", header=TRUE)
+
+barplot(as.matrix(data3), main="COVID-19 test Vs Gender", beside=TRUE,
+        col=c("blue","purple"))
+legend("topleft", c("Male","Female"), cex=1.3, bty="n", fill=c("blue","purple"))
+
+```
+```{r}
+data2 <- read.table(text="
+Sept_2022 Oct_2022 Nov_2022 Dec_2022 Jan_2023 Feb_2023 Mar_2023 Apr_2023 May_2023 June_2023
+1 0 0 1 9 8 7 1 4 11 22
+2 11 3 41 242 104 78 44 86 244 147
+3 3 5 17 53 27 43 6 12 90 43
+", header=TRUE)
+
+barplot(as.matrix(data2), main="Confirmed cases Vs Age categories", beside=TRUE,
+        col=c("green","blue","purple"))
+
+legend("topleft", 
+       c("Less than 15 years","15-49 years","Above 50"), 
+       cex=1.3, bty="n", fill=c("green","blue","purple"))
+
+```
+```{r}
+months<-c("Sept_2022","Oct_2022","Nov_2022","Dec_2022", "Jan_2023","Feb
+_2023","Mar_2023","Apr_2023","May_2023","June_2023")
+Confirmed_covid<-c(14,8,59,304,139,128,51,102,345,212)
+plot(Confirmed_covid, type = "l",pch=21, col = "red",ylim=c(0,350),
+xaxt="n", ylab = "Number of patients ",
+main = "Confirmed cases Vs treatment ")
+treatment<- c(12,0,26,217,104,57,12,47,23,20)
+lines(treatment, col="blue",lty=2)
+legend("topleft", legend=c("Received treatment", "Confirmed"),cex=0.5,
+fill = c("blue","red"))
+axis(1,at=1:10,lab=c("Sept_2022","Oct_2022","Nov_2022","Dec_2022", "Jan
+_2023","Feb_2023","Mar_2023","Apr_2023","May_2023","June_2023"))
+```
+```{r}
+months<-c("sept_2022","Oct_2022","Nov_2022","Dec_2022", "Jan_2023","feb
+_2023","Mar_2023","Apr_2023","May_2023", "June_2023")
+number_of_test<-c(1709, 1018, 3607,23788,6567,20113,10248,15152,11834,
+7891)
+plot(number_of_test, type = "o", col = "blue",ylim=c(0,24000),
+xaxt="n", ylab = "Number of Test",
+main = "COVID 19 Test")
+axis(1,at=1:10,lab=c("Sept_2022","Oct_2022","Nov_2022","Dec_2022", "Jan
+_2023","Feb_2023","Mar_2023","Apr_2023","May_2023","June_2023"))
+```
+
+
+### ggplot2
+##### ggplot2 provides a set of tools that allows you to visualize complex data sets in a new creative way -some work need some packages to get done.
+
+```{r}
+#library installation and calling
+library(ggplot2)
+#let us explore the data mtcars
+data(mtcars)
+```
+
+```{r}
+table(mtcars$cyl)
+```
+
+```{r}
+barplot(table(mtcars$cyl),
+        main="Distribution of car Cylinder counts",
+        xlab="Number of cylinders",
+        ylab="Number of cars")
+
+```
+```{r}
+barplot(table(mtcars$cyl),
+        main="Distribution of car Cylinder counts",
+        xlab="Number of cylinders",
+        ylab="Number of cars",
+        horiz=TRUE)
+
+```
+```{r}
+plot(mtcars$mpg~mtcars$wt,main="Automobile Data",xlab="Weight",ylab="Miles per Gallon")
+```
+
+```{r}
+plot(mtcars$mpg ~ mtcars$wt,
+     pch=17,
+     main="Automobile Data",
+     xlab="Weight",
+     ylab="Miles per Gallon")
+
+```
+```{r}
+plot(mtcars$mpg ~ mtcars$wt,
+     pch=21,
+     main="Automobile Data",
+     xlab="Weight",
+     ylab="Miles per Gallon")
+
+```
+```{r}
+plot(mtcars$mpg ~ mtcars$wt,
+     type="l",     # line plot
+     lty=2,        # dashed line
+     lwd=2,        # line width
+     col="red",
+     main="Automobile Data",
+     xlab="Weight",
+     ylab="Miles per Gallon")
+
+```
+```{r}
+library(ggplot2)
+ggplot(data=mtcars, aes(x=wt,y=mpg))+geom_point()+
+labs(title = "Automobile Data",x="Weight",y="Miles per Galon")
+```
+```{r}
+library(ggplot2)
+
+ggplot(data = mtcars, aes(x = wt, y = mpg)) +
+  geom_point(pch = 17, color = "blue", size = 1) +
+  geom_smooth(method = "lm", color = "green") +
+  labs(title = "Automobile Data",
+       x = "Weight",
+       y = "Miles per Gallon")
+
+```
+```{r}
+library(ggplot2)
+
+f0 <- ggplot(data = mtcars, aes(x = wt, y = mpg)) +
+  geom_point(shape = 24, fill = 1, size = 3) +  # increased size for visibility
+  geom_smooth(method = "lm", color = "blue")
+
+f0
+
+```
+```{r}
+f1<-f0+theme_bw()
+f1
+```
+
+```{r}
+f2<-f1+
+theme(panel.grid = element_line(linetype = "dotted",color = "Black"))
+f2
+```
+```{r}
+data(mtcars)
+mtcars$am<-factor(mtcars$am, levels =c(0,1),
+labels= c("Automatic","Manual"))
+mtcars$vs<-factor(mtcars$vs, levels =c(0,1),
+labels=c("V-Engine","Straight Engine"))
+mtcars$cyl<-factor(mtcars$cyl)
+ggplot(data=mtcars,aes(x=hp,y=mpg,shape=cyl,color=cyl))+
+geom_point(size=3)+
+facet_grid(vs~am)+
+labs(title = "Automobile Data by Engine Type",x="HorsePower",y="Miles
+per Gallon")
+```
+
+```{r}
+data(singer,package="lattice")
+ggplot(singer,aes(x=voice.part,y=height))+geom_boxplot()
+```
+```{r}
+data2<- data.frame(x=1:3, y=c("a","b","c"))
+str(data2)
+```
+
+```{r}
+(cbind(data2,data.frame(z=3:1)))
+```
+
+```{r}
+(rbind(data2,data.frame(x=10,y="z")))
+```
+
+```{r}
+women
+```
+
+```{r}
+head(women)
+```
+```{r}
+summary(women)
+```
+```{r}
+data_class<-read.csv("C:\\Users\\DXB\\Desktop\\R_programing\\class3\\random_height_weight_dataset.csv")
+variable.names(data_class)
+
+head(data_class,n=5)
+
+tail(data_class)
+data_class[,1]
+
+summary(data_class$Weight.kg.)
+
+length(data_class$Weight.kg.)
+
+data_class[,-1]
+
+attach(data_class)
+(BMI<-Weight.kg./(Height.cm./100)^2)
+
+(BMI<-round(Weight.kg./(Height.cm./100)^2,digit=1))
+
+head(cbind(data_class,BMI))
+
+tail(cbind(data_class,BMI),n=10)
+
+detach(data_class)
+```
+### Summary of BMI
+```{r}
+summary(BMI)
+
+hist(data_class$Height.cm.)
+hist(data_class$Weight.kg.,col = "blue",main = "Sample Histogram")
+stem(BMI,scale=2)
+```
+
+### Subsetting
+```{r}
+manager <- c(1,2,3,4,5)
+country <- c("US","US","UK","UK","UK")
+gender <- c("M","F","F","M","F")
+age <- c(32,45,25,39,99)
+q1 <- c(5,3,3,3,2)
+q2 <- c(4,5,5,3,2)
+q3 <- c(5,2,5,4,1)
+q4 <- c(5,5,5,NA,2)
+q5 <- c(5,5,2,NA,1)
+leadership <- data.frame(manager, country, gender, age, q1, q2, q3, q4, q5,
+                         stringsAsFactors = FALSE)
+str(leadership)
+
+```
+
+```{r}
+names(leadership)
+```
+### Missing Value
+```{r}
+leadership$age[leadership$age==99]<-NA
+leadership$agecat[leadership$age >75]<-"Elder"
+leadership$agecat[leadership$age>=35 & leadership$age<=75]<-"Middle Age
+d"
+leadership$agecat[leadership$age <35]<- "Young"
+```
+
+```{r}
+is.na(leadership[,5:9])
+```
+
+```{r}
+newdata<-na.omit(leadership)
+newdata
+```
+### Sorting
+
+```{r}
+order(leadership$age)
+```
+
+```{r}
+newdata2<-leadership[order(leadership$age),]
+```
+### Merging data sets
+##### Subset (selecting variables,dropping variables,selecting observation)
+```{r}
+newdata3<-leadership[,c(5:9)]
+myvars<-c("q1","q2","q3","q4","q5")
+newdata3<-leadership[myvars]
+newdata4<-leadership[,c(-1,-2)]
+newdata4<-leadership[,-(1:5)]
+newdata5<-leadership[,c(-1,-7)]
+leadership[[4]]
+```
+
+```{r}
+leadership$age
+```
+
+```{r}
+newdata6<-leadership[c(-1,-3),]
+newdata6<-leadership[c(2,4,5),]
+newdata7<-subset(leadership,age>=35|age<24,select=c(q1,q2,q3,q4,q5))
+attach(leadership)
+```
+
+```{r}
+#newdata7<-leadership[gender="M" & age>30,]
+newdata7<-leadership[gender=="M" & age>30,]
+#detach(leadership)
+```
+
+```{r}
+#install.packages("nycflights13")
+library(nycflights13)
+```
+```{r}
+library(dplyr)
+```
+### The function filter()
+
+```{r}
+str(flights)
+```
+```{r}
+jan<-filter(flights,month==1)
+jan
+```
+```{r}
+newyear<-filter(flights,month==1, day==1)
+newyear
+```
+
+```{r}
+dec25<-filter(flights,month==12, day==25)
+dec25
+```
+
+```{r}
+jan_dec<-filter(flights,month==1|month==12)
+jan_dec
+```
+```{r}
+nov_dec<-filter(flights,month %in% c(11,12))
+```
+### The function arrange()
+```{r}
+data_10<-arrange(flights,year,month,day)
+arrange(flights,desc(arr_delay))
+```
+### The function select
+```{r}
+time_var<-select(flights, year,month, day)
+select(flights, year:day)
+```
+```{r}
+select(flights,-(year:day))
+```
+### The function mutate
+
+##### This is useful in adding a new Variable
+```{r}
+flights2<-select(flights,year:day,ends_with("delay"),distance,air_time)
+(mutate(flights2,gain=arr_delay-dep_delay,
+speed=distance/air_time*60))
+```
+### Class2 cont
+
+###Function on R
+```{r}
+f<-function(x) x^2
+formals(f)
+```
+
+```{r}
+body(f)
+```
+```{r}
+environment(f)
+```
+### ifelse(test,yes,No)
+```{r}
+pvalues<-c(.867,0.0054,0.0018,0.1572,0.0183,0.5386)
+results<-ifelse(pvalues<0.05,"Significant"," Not significant")
+results
+```
+```{r}
+x<-runif(1,0,10)
+if(x>3){
+y<-10
+}else {
+y<-0
+}
+```
+
+```{r}
+y<-if (x>3){
+10
+}else {
+0
+}
+```
+
+```{r}
+for(i in 1:10){
+print(i)}
+```
+```{r}
+x<-c("a","b","c","d")
+```
+
+```{r}
+x[3]
+```
+
+```{r}
+for(i in 1:5){
+print(x[i])
+}
+```
+
+```{r}
+for(i in 1:5)print(1:i)
+```
+
+```{r}
+for(i in 5:1)print(1:i)
+```
+### while Loops
+
+```{r}
+count<-1
+while (count<10){
+print(count)
+count<-count+1
+}
+```
+```{r}
+z<-5
+set.seed(1)
+while(z>= 3 && z<=10){
+coin<-rbinom(1,1,0.5)
+if (coin==1){
+z=z+1
+} else {
+z<-z-1
+}
+}
+print(z)
+```
+### next, break
+#### This is used to skip an iteration of a loop
+
+```{r}
+for (i in 1:100){
+print(1:i)
+if (i>20){
+break
+}
+}
+```
+### Function
+```{r}
+f1 <- function(x) {
+  result <- x^2 + 2
+  return(result)
+}
+
+f2 <- function(x, y) {
+  result <- x^2 + y^2 - 4
+  return(result)
+}
+
+f <- function(x, y) {
+  result <- x + (2 * y) + 3
+  return(result)
+}
+
+```
+
+```{r}
+f(2,3)
+```
+### Applying functions to matrices and data frame.
+```{r}
+a<-4
+sqrt(4)
+## [1] 2
+b<- c(1,243,5.754,2.987)
+round(b)
+```
+
+```{r}
+c<-matrix(runif(12),nrow=3)
+c
+```
+
+```{r}
+log(c)
+```
+
+```{r}
+mean(c)
+```
+### lappy function
+```{r}
+fix_missing<-function(x){
+x[x==-99]<-NA
+x
+}
+function1<-function(x){
+x^2
+}
+curve(function1,-4,4)
+```
+```{r}
+str(Titanic)
+```
+
+```{r}
+View(Titanic)
+apply(Titanic,c(1,2),sum )
+```
+```{r}
+options(digits = 2)
+apply(Titanic,c(1,2),sum)[3:4,]
+```
+
+```{r}
+apply(Titanic,c(1,4),sum)[3:4,]
+```
+
+```{r}
+apply(Titanic,c(1,2,4),sum)
+```
+
+```{r}
+apply(Titanic,c(1,2,4),sum)[3:4,,]
+```
+```{r}
+ftable(apply(Titanic,c(1,4,2),sum)[3:4,,])
+```
+
+```{r}
+ftable(apply(Titanic,c(1,4,2),sum)[3:4,,])[1:2,]
+```
+
+```{r}
+ftable(apply(Titanic,c(1,4,2),sum)[3:4,,])[3:4,]
+```
+
+```{r}
+digit=2
+prop.table(ftable(apply(Titanic,c(1,4,2),sum)[3:4,,])[1:2,], margin = 2)
+```
+
+```{r}
+prop.table(ftable(apply(Titanic,c(1,4,2),sum)[3:4,,])[3:4,], margin = 2)
+```
+```{r}
+
+tab <- apply(Titanic, c(1, 4, 2), sum)   
+tab_sub <- tab[3:4, , ]                   
+ftab <- ftable(tab_sub)[1:2, ]           
+prop_tab <- prop.table(ftab, margin = 2) 
+
+result <- matrix(prop_tab, nrow = 2,
+                 dimnames = list(dimnames(Titanic)$Survived,
+                                 dimnames(Titanic)$Sex))
+
+result
+
+```
+```{r}
+
+tab <- apply(Titanic, c(1, 4, 2), sum)
+
+tab_sub <- tab[3:4, , ]
+ftab <- ftable(tab_sub)[3:4, ]
+
+prop_tab <- prop.table(ftab, margin = 2)
+result <- matrix(prop_tab, nrow = 2,
+                 dimnames = list(dimnames(Titanic)$Survived,
+                                 dimnames(Titanic)$Sex))
+
+result
+
+```
+```{r}
+#create dataset
+Student <- c("John ncuti", "Angela bakame", "Bruce wizeye", "Alexis aganze", 
+             "claude Rukundo", "Joel Kagabo", "Mary ineza")
+Math <- c(600, 412, 358, 495, 512, 410, 522)
+Science <- c(95, 99, 80, 82, 75, 89, 77)
+English <- c(25, 22, 18, 20, 29, 30, 27)
+
+roster <- data.frame(Student, Math, Science, English, stringsAsFactors = FALSE)
+
+str(roster)
+
+```
+```{r}
+z<-scale(roster[,2:4])
+```
+
+```{r}
+score<-apply(z,1,mean)
+roster<-cbind(roster,score)
+```
+
+```{r}
+y<-quantile(score,c(.8,.6,.4,.2))
+```
+
+```{r}
+## create a grade variable us
+roster$grade[score>=y[1]]<-"A"
+roster$grade[score<y[1]&score>=y[2]]<-"B"
+roster$grade[score<y[2]& score>=y[3]]<-"C"
+roster$grade[score<y[3]& score>=y[4]]<-"D"
+roster$grade[score<y[4]]<-"F"
+```
+
+```{r}
+#### Dealing with names
+name<-strsplit((roster$Student),"")
+lastname<-sapply (name,"[",2)
+firstname<-sapply(name,"[",1)
+roster<-cbind(firstname, lastname,roster[,-1])
+roster<-roster[order(lastname,firstname),]
+roster
+```
+#### Aggregation and reshaping
+#### transpose
+```{r}
+cars<-mtcars[1:5, 1:4]
+cars
+```
+
+```{r}
+t(cars)
+```
+aggregate data
+```{r}
+options(digits=3)
+attach(mtcars)
+aggdata<-aggregate(mtcars,by=list(cyl,gear),FUN=mean,na.rm=TRUE)
+```
+### Reshape
+```{r}
+id<-c(1,1,2,2)
+time<-c(1,2,1,2)
+x1<-c(5,3,6,2)
+x2<-c(6,5,1,4)
+mydata<-data.frame(id,time,x1,x2)
+```
